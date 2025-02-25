@@ -1,0 +1,208 @@
+{% extends "app/base.html" %}
+
+{% block style %}
+    {# Custom CSS for Fitness Assistant page #}
+    body {
+        background-image: url('/static/exerciseImages/fai.png'); /* Replace with your image path */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        color: #333; /* Default text color for body */
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 1); /* Pure white background */
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 600px;
+        margin: 50px auto;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        font-family: 'Arial', sans-serif;
+    }
+
+    .text-center h2 {
+        color: #212529; /* Darker text for heading */
+        font-weight: bold;
+        font-size: 28px;
+    }
+
+    #chat-box {
+        border: none; /* Remove border */
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #fff; /* White background for chat messages */
+        color: #333;
+        font-size: 16px;
+        overflow-y: auto; /* Enable scrolling for long chats */
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for chat box */
+    }
+
+    #chat-form {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px; /* Add margin between chat box and form */
+    }
+
+    #message-input {
+        flex: 1;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 12px;
+        font-size: 16px;
+        color: #333;
+    }
+    .btn {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background-color: #6a11cb;
+        transform: scale(1.05);
+    }
+
+    .btn:active {
+        background-color: #4c8bf5;
+        transform: translateY(2px);
+    }
+    .btn-send {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 12px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-send:hover {
+        background-color: #0056b3;
+        transform: scale(1.02); /* Slightly smaller hover scale */
+    }
+
+    .btn-send:active {
+        background-color: #4c8bf5;
+        transform: translateY(1px); /* Smaller vertical shift on press */
+    }
+
+    .chat-message {
+        margin-bottom: 10px;
+        font-size: 14px;
+        display: flex; /* Allow alignment for user and AI messages */
+        align-items: center;
+    }
+
+    .user-msg {
+        text-align: right;
+        color: #333;
+        font-weight: bold;
+        margin-right: auto; /* Align to right side */
+    }
+
+    .ai-msg {
+        text-align: left;
+        color: #007bff;
+        font-weight: bold;
+        margin-left: auto; /* Align to left side */
+    }
+
+    .ai-msg .response {
+        color: #1f8ecd;
+        font-style: italic;
+    }
+
+    .chat-message .message {
+        margin: 5px 0;
+    }
+
+    .chat-box-container {
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 0; /* Remove padding to avoid extra space */
+    }
+{% endblock style %}
+
+{% block body %}
+<div class="container">
+    <h2 class="text-center">Your Personal Fitness Assistant</h2>
+    
+    <div id="chat-box" class="chat-box-container">
+        <!-- Chat messages will appear here -->
+    </div>
+
+    <form id="chat-form">
+        {% csrf_token %}
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="message-input" placeholder="Type your message..." required>
+            <button type="submit" class="btn-send">Send</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const chatForm = document.getElementById('chat-form');
+    const chatBox = document.getElementById('chat-box');
+    const messageInput = document.getElementById('message-input');
+
+    // Add hover effects for button dynamically
+    const button = document.querySelector('.btn-send');
+    button.addEventListener('mouseover', () => {
+        button.style.backgroundColor = '#0056b3';
+        button.style.transform = 'scale(1.05)';
+    });
+
+    button.addEventListener('mouseout', () => {
+        button.style.backgroundColor = '#007bff';
+        button.style.transform = 'scale(1)';
+    });
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userMessage = messageInput.value;
+
+        // Add user message to chat box
+        const userMsgElement = document.createElement('div');
+        userMsgElement.classList.add('chat-message', 'user-msg');
+        userMsgElement.innerHTML = `<div class="message">You: ${userMessage}</div>`;
+        chatBox.appendChild(userMsgElement);
+
+        messageInput.value = '';
+
+        try {
+            const response = await fetch('/fitness-assistant/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessage }),
+            });
+
+            const data = await response.json();
+            console.log("Response from server:", data);
+
+            const aiMsgElement = document.createElement('div');
+            aiMsgElement.classList.add('chat-message', 'ai-msg');
+            aiMsgElement.innerHTML = `
+                <div class="message">AI: <span class="response">${data.response || data.error || 'No response received'}</span></div>
+            `;
+            chatBox.appendChild(aiMsgElement);
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+</script>
+{% endblock %}

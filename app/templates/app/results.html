@@ -1,0 +1,190 @@
+{% extends "app/base.html" %}
+{% block style %}
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('/static/exerciseImages/backgroundResult.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    color: black
+}
+
+main {
+    margin-top: 5%;
+}
+
+.content-section {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1.2s ease;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2575fc;
+}
+
+h5 {
+    font-size: 18px;
+    color: #6a11cb;
+}
+
+.text-muted {
+    color: #7d7d7d !important;
+}
+
+.btn {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    color: white;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #6a11cb;
+    transform: scale(1.05);
+}
+
+.btn:active {
+    background-color: #4c8bf5;
+    transform: translateY(2px);
+}
+
+/* Center alignment for text and button */
+.text-center {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+{% endblock style %}
+{% block body %}
+    <h1>Results</h1>
+    <h2 class="text-muted" style="color: black;">View your progress over time.</h2>
+    <hr>
+    <div class="row">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        {{ change }} <span class="small">lbs</span>
+                    </h1>
+                    <p class="card-text">
+                        <i class="fa fa-line-chart"></i> Weight Change
+                        <br>
+                        <span>&shy;</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        {{ str_change }} <span class="small">%</span>
+                    </h1>
+                    <p class="card-text">
+                        <i class="fa fa-bolt"></i>  Strength Change {% if not request.GET.ex %} <br><span class="small text-danger">No Exercise Selected</span> {% else %} <br><span>&shy;</span>{% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">
+                       {{ avg_cals }} <span class="small">cals</span>
+                    </h1>
+                    <p class="card-text">
+                        <i class="fa fa-cutlery"></i>  Avg Daily Consumption
+                        <br>
+                        <span>&shy;</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        {{ average }} <span class="small">lbs</span>
+                    </h1>
+                    <p class="card-text">
+                        <i class="fa fa-balance-scale"></i>  Average Weight
+                        <br>
+                        <span>&shy;</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/results/" class="form-inline" style="float:right">
+                        <select name="ex" id="ex" class="form-control">
+                            <option selected disabled>Select Exercise</option>
+                            {% for name in ex_names %}
+                                <option value="{{ name }}" {% if name == request.GET.ex %} selected {% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                        <Button class="btn btn-outline-secondary form-control" type="submit">Submit</Button>
+                    </form>
+                    <h4 class="card-title">
+                        Strength Increase ({{ request.GET.ex }})
+                    </h4>
+                    <p class="card-text">
+                        <img style="padding-top:2%"src="data:image/png;base64,{{ img3 }}" width="100%">
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Daily Calorie Consumption
+                    </h4>
+                    <p class="card-text">
+                        <img src="data:image/png;base64,{{ img2 }}" width="100%">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+                <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Weight History
+                    </h4>
+                    <p class="card-text">
+                        <img src="data:image/png;base64,{{ img1 }}" width="100%">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

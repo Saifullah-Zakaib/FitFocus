@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>FitFocus - {{ title }}</title>
+    {% else %}
+        <title>FitFocus</title>
+    {% endif %}
+    <link rel="icon" href="{% static 'favicon.ico' %}" sizes="1000x1000" type="image/png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" 
+          crossorigin="anonymous">
+    
+    <style>
+        .nav {
+            display: inline-block;
+            width: 100%;
+            padding: 1%;
+        }
+        .logo-header {
+            margin-top: -50;
+            margin: -2.5vw;
+            display: block;
+            height: 150px; /* Increased height from 56px to 70px */
+            max-width: 1000px; /* Increased max-width from 300px to 350px */
+            float: left;
+        }
+        .nav-btn {
+            float: right;
+            margin: 0.5vw;
+        }
+        .fade {
+            animation: fadeinout 4s linear 1 forwards;
+        }
+        @keyframes fadeinout {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .footer {
+            width: 100%;
+            background-color: #61605c;
+            text-align: center;
+            height: 140px;
+            margin-top: 225px;
+            position: relative;
+            bottom: 0;
+        }
+        .logo-footer {
+            padding: 30px 0 15px 0;
+            height: 100px;
+            width: auto;
+        }
+        .main {
+            min-height: 100vh;
+        }
+
+        @media screen and (max-width: 910px) {
+            .nav-btn {
+                width: 100%;
+            }
+            .logo-div {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 0.5vw;
+                max-width: 300px; /* Slightly larger logo */
+
+            }
+        }
+        {% block style %}{% endblock %}
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=maximum-scale, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" 
+          crossorigin="anonymous">
+</head>
+<body class="body">
+    <div class="main">
+        <div class="nav">
+            <div class="logo-div">
+                <img src="{% static 'logo2.png' %}" class="logo-header">
+            </div>
+            {% with request.resolver_match.url_name as url_name %}
+            {% if user.is_authenticated %}
+                <p class="nav-btn pt-2">{{ user.username }}</p>
+                <a href={% url 'app:logout' %}>
+                    <Button class="btn btn-outline-danger nav-btn">Logout</Button>
+                </a>
+                <a href={% url 'app:results' %}>
+                    <Button class="btn btn-outline-secondary nav-btn {% if url_name == 'results' %} active {% endif %}">
+                        Results
+                    </Button>
+                </a>
+                <a href={% url 'app:foodtracker' %}>
+                    <Button class="btn btn-outline-secondary nav-btn {% if url_name == 'foodtracker' %} active {% endif %}">
+                        Diet Diary
+                    </Button>
+                </a>
+                <a href={% url 'app:weightlog' %}>
+                    <Button class="btn btn-outline-secondary nav-btn {% if url_name == 'weightlog' %} active {% endif %}">
+                        Weight Track
+                    </Button>
+                </a>
+                <a href={% url 'exlog_home' %}>
+                    <Button class="btn btn-outline-secondary nav-btn
+                    {% if url_name in 'exlog_home exlog-detail exlog-create exlog-update exlog-delete exlog-add-exercise exlog-update-exercise exlog-delete-exercise' %}
+                        active
+                    {% endif %}">
+                        Exercise Tracker
+                    </Button>
+                </a>
+                <a href={% url 'app:exercises' %}>
+                    <Button class="btn btn-outline-secondary nav-btn {% if url_name == 'exercises' %} active {% endif %}">
+                        Exercises
+                    </Button>
+                </a>
+                <a href={% url 'app:calories_finder' %}>
+                    <Button class="btn btn-outline-secondary nav-btn {% if url_name == 'calories_finder' %} active {% endif %}">
+                        Calories Finder
+                    </Button>
+                </a>
+                <a href={% url 'app:fitness_assistant' %}>
+                    <Button class="btn btn-outline-secondary nav-btn {% if url_name == 'fitness_assistant' %} active {% endif %}">
+                        Ai Bot
+                    </Button>
+                </a> 
+            {% else %}
+                <a href={% url 'app:signup' %}>
+                    <Button class="btn btn-outline-secondary nav-btn">Sign Up</Button>
+                </a>
+                <a href={% url 'app:login' %}>
+                    <Button class="btn btn-outline-secondary nav-btn">Log In</Button>
+                </a>
+            {% endif %}
+            {% endwith %}
+            <a href={% url 'app:home' %}>
+                <Button class="btn btn-outline-secondary nav-btn {% if url_name == 'home' %} active {% endif %}">
+                    Home
+                </Button>
+            </a>
+        </div>
+        <div class="container" style="min-height:600px;">
+            {% block body %}{% endblock %}
+        </div>
+</body>
+</html>

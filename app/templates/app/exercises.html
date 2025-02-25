@@ -1,0 +1,309 @@
+{%  extends "app/base.html" %}
+{% load static %}
+{% block style %}
+
+.boxes {
+    width: 95%;
+    height: 650px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.selection-box {
+    padding: 10px 0 10px 30px;
+    float: right;
+    width: 35%;
+    background: linear-gradient(135deg, #f1e59f, #e3d77c);
+    border-radius: 5px;
+}
+.exercises-box-overflow {
+    padding: 10px 30px 10px 10px;
+    float: left;
+    width: 65%;
+    height: 630px;
+    overflow-y: scroll;
+}
+.exercises-box {
+    padding: 10px 30px 10px 10px;
+    float: left;
+    width: 65%;
+    height: 500px;
+}
+.header {
+    position: relative;
+    text-align: center;
+    padding: 2vmin;
+    margin: auto;
+}
+.exercises-box-img {
+    filter: brightness(50%);
+    max-width: 100%;
+    height: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.5s ease-in-out;
+}
+.exercises-box-img:hover {
+    transform: scale(1.05);
+}
+.exercises-box-text {
+    color: white;
+    position: absolute;
+    max-width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.exercise {
+    background: none;
+    flex-direction: row;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #6c757d;
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
+.exercise:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.exercise-image {
+    width: 150px;
+    height: auto;
+    float: left;
+    padding: 10px;
+    margin-right: 50px;
+    transition: transform 0.3s ease-in-out;
+}
+.exercise-image:hover {
+    transform: scale(1.1);
+}
+.exercise-text {
+    padding: 0px 10px 0px 10px;
+}
+.muscle-button {
+    width: 95%;
+    margin: 0.2vw;
+    line-height: 1.5;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff7f50, #ff6347);
+    color: #fff;
+    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.muscle-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #ff6347, #ff4500);
+}
+.muscle-container {
+    flex-direction: row;
+    padding: 2%;
+}
+.vertical-container {
+    float: right;
+    width: 33%;
+}
+
+/* Button Styles */
+.btn {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background: #6a11cb;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block; /* Ensure visibility */
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #4c8bf5;
+    transform: scale(1.05);
+}
+
+.btn:active {
+    background-color: #3a79e5;
+    transform: translateY(2px);
+}
+
+.body-map {
+    width: 100%;
+    height: auto;
+    transition: opacity 1s ease-in-out;
+}
+
+/* Fade-in Animation for Page Load */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+body {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Smooth Transition for Button Hover */
+.btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.selection-box button {
+    transition: transform 0.2s ease-in-out;
+    padding: 10px;
+    font-size: 16px;
+}
+.selection-box button:hover {
+    transform: translateX(5px);
+}
+{% endblock style %}
+
+{% block body %}
+    <h1 class="header pb-0 mb-0 pl-0" style="text-align: left;">Exercise Catalog</h1>
+    <p class="text-muted">Get inspired and build your next workout from our extensive library of workouts.</p>
+    <hr>
+    <div class="boxes">
+
+        <!-- Display muscle groups -->
+<div class="selection-box" style="background: linear-gradient(135deg, #f1e59f, #e3d77c); padding: 20px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+    <h6 style="padding-left: 10px; font-size: 18px; font-weight: bold; color: #333;">Select a muscle from the list below:</h6>
+    <div class="muscle-container" style="display: flex; justify-content: space-around; margin-top: 20px; gap: 10px;">
+        <!-- Column 1 -->
+        <div class="vertical-container">
+            <form action='117' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Hips</button>
+            </form>
+            <form action='118' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Buttocks</button>
+            </form>
+            <form action='119' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Quads</button>
+            </form>
+            <form action='120' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Hamstrings</button>
+            </form>
+            <form action='121' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Calves</button>
+            </form>
+        </div>
+        <!-- Column 2 -->
+        <div class="vertical-container">
+            <form action='110' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Trapezius</button>
+            </form>
+            <form action='111' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Shoulders</button>
+            </form>
+            <form action='112' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Triceps</button>
+            </form>
+            <form action='113' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Biceps</button>
+            </form>
+            <form action='114' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Forearms</button>
+            </form>
+        </div>
+        <!-- Column 3 -->
+        <div class="vertical-container">
+            <form action='101' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Cardio</button>
+            </form>
+            <form action='102' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Chest</button>
+            </form>
+            <form action='106' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Back</button>
+            </form>
+            <form action='103' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Abs</button>
+            </form>
+            <form action='104' method='POST'>
+                {% csrf_token %}
+                <button class="muscle-button">Obliques</button>
+            </form>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <img src="{{body_diagram}}" class="body-map" style="max-width: 80%; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+    </div>
+</div>
+        <!--Display exercise welcome message-->
+        {% if active_exercise == 0 %}
+            <div class="exercises-box">
+                <div class="header">
+                    <img src="{% static 'getStarted.jpg' %}" class="exercises-box-img">
+                    <div class="exercises-box-text">
+                        <h1 class="title">On your marks... Get set... Go!</h1></br>
+                        <h3 class="subtitle">Select a muscle group or exercise category to get started</h3>
+                        <h6 class="subtitle">or click below to see the full list:</h3></br></br>
+                        <form action='100' method='POST'>
+                            {% csrf_token %}
+                            <Button class="btn btn-default btn-lg">See full list</Button>  
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <!--Display exercise list-->
+        {% else %}
+            <div class="exercises-box-overflow">
+            <!--Alert message-->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+                <h5 style="padding-left: 10px;">Recommended exercises: </h5>
+                {% for exercise in exercises %}
+                    <div class="exercise">                     
+                        <img src="/static/exerciseImages/{{exercise.image_link}}" class="exercise-image">
+                        <p class="exercise-text" style="margin-bottom: 5px;">
+                            <!--Pending: populate exercise log with selected exercise-->
+                            <a id={{exercise.ex_id}} href="{% url 'exlog-add-from-recommender' exercise.name %}">
+                                <Button class="btn btn-outline-secondary btn-sm" style="float: right; line-height: 1.2;">Add to Today's Workout</Button>
+                            </a>
+                            <strong>{{exercise.name}}</strong></br>
+                            <em style="font-size: 80%;">Category: {{exercise.group}}</em></br>
+                        </p>   
+                        <p class="exercise-text">
+                            {{exercise.description}}
+                        </p>                      
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock body %}
+

@@ -1,0 +1,153 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Card Styles */
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Title Styles */
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #1a73e8;
+  font-weight: bold;
+}
+
+.card-title a {
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  transition: background-color 0.3s;
+}
+
+.card-title a:hover {
+  background-color: #0056b3;
+}
+
+.card-title .h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.table thead {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Table Cell Styles */
+.table td {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .table {
+      font-size: 0.8rem;
+  }
+
+  .card-title {
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 1.2rem;
+  }
+
+  .card-title a {
+      margin-top: 10px;
+      width: 100%;
+  }
+}
+
+/* Scrollable Div */
+div[style*="max-height:600px"] {
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Additional Styling */
+h1, h2, h3 {
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #6a11cb; /* Added a default background color */
+  color: white; /* Text color */
+  text-decoration: none;
+  cursor: pointer; /* Ensures pointer style on hover */
+  transition: all 0.3s ease; /* Smooth transition */
+  display: inline-block; /* Ensures proper button display */
+}
+
+/* Hover Effect for Buttons */
+.btn:hover {
+  background-color: #4c8bf5; /* Highlight color on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* Active State for Buttons */
+.btn:active {
+  background-color: #3a79e5; /* Darker shade on click */
+  transform: translateY(2px); /* Pressed effect */
+}
+
+/* Footer Styling (if you add one) */
+footer {
+  font-size: 18px;
+  text-align: center;
+  padding: 10px 0;
+  background-color: #202931;
+  color: white;
+  margin-top: 40px;
+}

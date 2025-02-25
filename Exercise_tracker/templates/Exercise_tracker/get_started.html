@@ -1,0 +1,114 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+
+{% block body %}
+<!-- Include the base stylesheet -->
+<link rel="stylesheet" type="text/css" href="{% static 'exlog_app/base.css' %}">
+{% block stylesheets %}{% endblock stylesheets %}
+
+<style>
+    /* General body styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        /* background: linear-gradient(135deg, #7f3bc7 0%, #2575fc 100%); */
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Margin for the main content area */
+    main {
+        margin-top: 5%;
+    }
+
+    /* Card styling for the content section */
+    .content-section {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 1.2s ease;
+    }
+
+    /* Header styles */
+    h2 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2575fc;
+    }
+
+    h5 {
+        font-size: 18px;
+        color: #6a11cb;
+    }
+
+    .text-muted {
+        color: #7d7d7d !important;
+    }
+
+    /* Button styling */
+    .btn {
+        display: inline-block;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        background-color: #2575fc;
+        color: #2575fc;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    /* Button hover and active states */
+    .btn:hover {
+        /* background-color: #6a11cb; */
+        transform: scale(1.05);
+    }
+
+    .btn:active {
+        background-color: #6a11cb;
+        transform: translateY(2px);
+    }
+
+    /* Center alignment for the button and text */
+    .text-center {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<main role="main" class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-8">
+      <!-- Content Card -->
+      <div class="content-section">
+        <h2 class="mt-1 text-center"><b>Welcome to FitFocus's Exercise Tracker!</b></h2>
+        <h5 class="mt-3 text-center">Click the button below to add your first Exercise Log</h5>
+        <p class="text-center text-muted">
+          Try building your workout first! Simply visit the exercises tab and click "Add to Today's Workout", then come back here to log your sets.
+        </p>
+        
+        <!-- Call-to-action Button -->
+        <div class="text-center">
+          <a href="/exlog/log/new/" class="btn mt-3 btn-lg">Start Tracking Your Workouts!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock body %}

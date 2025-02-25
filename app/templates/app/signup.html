@@ -1,0 +1,199 @@
+{% extends "app/authbase.html" %}
+{% load static %}
+{% block style %}
+        /* Global Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            background: url('{% static "c.jpg" %}') no-repeat center center fixed; /* Background image */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            height: 90vh; /* Reduce height of container */
+            padding: 20px; /* Reduce padding */
+        }
+        
+        .window {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            padding: 40px 50px; /* Reduced padding */
+            max-width: 600px;
+            width: 100%;
+            animation: slideIn 1s ease-out;
+            
+        }
+        
+        .logo {
+            display: block;
+            margin: 0 auto 20px; /* Reduced margin */
+            max-width: 250px; /* Reduced size of logo */
+        }
+        
+        h1.text {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 20px; /* Reduced space below the title */
+            font-size: 30px; /* Reduced font size */
+            font-weight: bold;
+            animation: fadeIn 1.5s;
+        }
+        
+        .input-group {
+            margin-bottom: 20px; /* Reduced space between input groups */
+            position: relative;
+        }
+        
+        .input-group-text {
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            padding: 12px 15px; /* Reduced padding */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .input-group-text img {
+            max-width: 25px; /* Reduced icon size */
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px; /* Reduced padding */
+            border: none;
+            border-radius: 0 30px 30px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 14px; /* Reduced font size */
+        }
+        
+        input:focus {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn {
+            display: block;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            background-color: #2575fc;
+            color: #fff;
+            font-size: 14px; /* Reduced font size */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .btn:hover {
+            background-color: #6a11cb;
+            transform: translateY(-3px);
+        }
+        
+        .errors {
+            margin-bottom: 20px;
+            padding: 12px; /* Reduced padding */
+            border-radius: 10px;
+            background: #f8d7da;
+            color: #842029;
+            font-size: 14px; /* Reduced font size */
+            animation: fadeIn 1s;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+{% endblock style %}
+
+{% block body %}
+    <div class="window">
+        <form class="shadow bg-white rounded signup" method="POST">
+            {% csrf_token %}
+            <img src="{% static 'logo.png' %}" class="logo">
+            <h1>Sign Up</h1>
+            {% if form.errors %}
+                <div class="errors">
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <a style="color:red">{{ field.errors }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="{% static 'user.png' %}" class="img">
+                    </span>
+                </div>
+               {# <input class="form-control" placeholder="First Name"> #}
+                {# <input class="form-control" placeholder="Last Name"> #}
+                {{ form.first_name }}
+                {{ form.last_name }}
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="{% static 'group.png' %}" class="img">
+                    </span>
+                </div>
+                {#<input class="form-control" placeholder="Username">#}
+                {{ form.username }}
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="{% static 'mail.png' %}" class="img">
+                    </span>
+                </div>
+                {# <input class="form-control" placeholder="Email"> #}
+                {{ form.email }}
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="{% static 'password.png' %}" class="img">
+                    </span>
+                </div>
+                {# <input class="form-control" placeholder="Password" type="password"> #}
+                {{ form.password1 }}
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="{% static 'tick.png' %}" class="img">
+                    </span>
+                </div>
+                {# <input class="form-control" placeholder="Confirm Password" type="password"> #}
+                {{ form.password2 }}
+            </div>
+            <Button class="btn btn-secondary" type="submit">Sign Up</Button>
+        </form>
+    </div>
+{% endblock body %}

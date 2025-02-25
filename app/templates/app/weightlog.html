@@ -1,0 +1,104 @@
+{% extends "app/base.html" %}
+{% block style %}
+    {# Insert CSS stylings specific to the page here #}
+    body {
+        background-image: url('/static/exerciseImages/backgroundlog.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white; /* Ensures the text is readable on the gradient */
+        min-height: 100vh; /* Ensures the gradient covers the full viewport height */
+        margin: 0; /* Removes default margin for proper gradient display */
+    }
+
+    .boxes {
+        width: 95%;
+        height: 700px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    /* Button Styling */
+    .btn {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background-color: #6a11cb;
+        transform: scale(1.05);
+    }
+
+    .btn:active {
+        background-color: #4c8bf5;
+        transform: translateY(2px);
+    }
+
+    .error-message {
+        color: #ff0000; /* Red text for error messages */
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+{% endblock style %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-10 offset-1">
+        {% if savedWeight %}
+            <div class="alert alert-success fade">Logged Weight. Great job!</div>
+        {% endif %}
+        <h1 class="mb-0">Weight Tracker</h1>
+        <p class="text-muted">Track your weight over time so that you can view your progress.</p>
+        <hr>
+        <br>
+        <form class="form-inline pb-3" action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.weight.label_tag }}
+                {{ form.weight }}
+                {% if form.weight.errors %}
+                    <div class="error-message">
+                        {{ form.weight.errors|join:" " }}
+                    </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm ml-2">Enter</button>
+        </form>
+        <div class="card" style="height: 500px; overflow-y: auto;">
+            <div class="card-body">
+                <div class="card-detail">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Weight</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% if weight_logs|length < 1 %}
+                                <tr><td class="text-center" colspan="2">What are you waiting for? Log your weight above!</td></tr>
+                            {% else %}
+                                {% for weight in weight_logs %}
+                                    <tr>
+                                        <th scope="row">{{ weight.timestamp }}</th>
+                                        <td>{{ weight.weight }} kg</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

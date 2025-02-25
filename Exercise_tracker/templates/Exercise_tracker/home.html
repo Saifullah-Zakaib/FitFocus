@@ -1,0 +1,181 @@
+{% extends "Exercise_tracker/base.html" %}
+{% load static %}
+{% block style %}
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px; /* Corrected font size */
+    background-image: url('/static/exerciseImages/backgroundExlog.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    margin-top: 5%;
+}
+
+.content-section {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1.2s ease;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2575fc;
+}
+
+h5 {
+    font-size: 18px;
+    color: #6a11cb;
+}
+
+.text-muted {
+    color: #7d7d7d !important;
+}
+
+.btn {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: #6a11cb; /* Added a default background color */
+    color: white; /* Text color */
+    text-decoration: none;
+    cursor: pointer; /* Ensures pointer style on hover */
+    transition: all 0.3s ease; /* Smooth transition */
+    display: inline-block; /* Ensures proper button display */
+}
+
+/* Hover Effect for Buttons */
+.btn:hover {
+    background-color: #4c8bf5; /* Highlight color on hover */
+    transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+/* Active State for Buttons */
+.btn:active {
+    background-color: #3a79e5; /* Darker shade on click */
+    transform: translateY(2px); /* Pressed effect */
+}
+
+/* Success Button - Blue Background */
+.btn-success {
+  background-color: #2575fc;
+  border-color: #2575fc;
+  color: white;
+}
+
+/* Outline Success Button - Transparent with Blue Border */
+.btn-outline-success {
+  border-color: #2575fc;
+  color: #2575fc;
+  background-color: transparent;
+}
+
+.btn-outline-success:hover {
+  background-color: #6a11cb;
+  color: white;
+}
+
+/* Secondary Outline Button - Gray Border and Text */
+.btn-outline-secondary {
+  background-color: #6a11cb;
+  color:  #6a11cb;
+  background-color: transparent;
+}
+
+.btn-outline-secondary:hover {
+  background-color:  #6a11cb;
+  color: white;
+}
+
+/* Center alignment for text and button */
+.text-center {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+{% endblock style %}
+
+
+{% block stylesheet%}
+<link rel="stylesheet" type="text/css" href="{% static 'exlog_app/home.css' %}">
+{% endblock stylesheet%}
+
+{% block content%}
+<div style="max-height:600px;overflow-y:auto;">
+{% for exlog in exercise_logs %}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="card-title h3">
+             <a class="btn btn-primary btn-sm pull-right" href="{% url 'exlog-detail' exlog.id %}">Details</a>
+            {{ exlog.date | date:"F d, Y"}} Workout
+        </div>
+        <div class="card-text">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>Exercise</th>
+                        <th>Weight</th>
+                        <th>Sets</th>
+                        <th>Reps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exercise in exercises%}
+                        {% if exercise.exercise_log == exlog %}
+                        <tr>
+                            <td>{{ exercise.exercise_name }}</td>
+                            <td>
+                                {% if exercise.exercise_weight != 0 %}
+                                    {{ exercise.exercise_weight }} lbs
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if exercise.num_sets != 0 %}
+                                    {{ exercise.num_sets }}
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if exercise.num_reps != 0 %}
+                                    {{ exercise.num_reps }}
+                                {% else %}
+                                    --
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endblock content %}

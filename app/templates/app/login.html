@@ -1,0 +1,169 @@
+{% extends "app/authbase.html" %}
+{% load static %}
+{% block style %}
+        /* Global Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            background: url('{% static "d.jpg" %}') no-repeat center center fixed; /* Background image */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 40px;
+        }
+
+        .window {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            padding: 40px 50px; /* Increased padding for more space */
+            max-width: 600px; /* Increased max-width for a larger form */
+            width: 100%;
+            animation: slideIn 1s ease-out;
+            margin-top: -200px;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 250px; /* Slightly larger logo */
+        }
+
+        h1.text {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 20px; /* More spacing below the title */
+            font-size: 30px; /* Increased font size */
+            font-weight: bold;
+            animation: fadeIn 1.5s;
+        }
+
+        .input-group {
+            margin-bottom: 20px; /* More spacing between input groups */
+            position: relative;
+        }
+
+        .input-group-text {
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            padding: 12px 15px; /* Bigger padding for larger icons */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group-text img {
+            max-width: 25px; /* Larger icon size */
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px; /* Larger padding for text inputs */
+            border: none;
+            border-radius: 0 30px 30px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 16px; /* Bigger font for better readability */
+        }
+
+        input:focus {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            display: block;
+            padding: 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #2575fc;
+            color: #fff;
+            font-size: 14px; /* Larger font size for the button */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #6a11cb;
+            transform: translateY(-3px);
+        }
+
+        .errors {
+            margin-bottom: 20px;
+            padding: 15px; /* More padding for better visibility */
+            border-radius: 10px;
+            background: #f8d7da;
+            color: #842029;
+            font-size: 16px; /* Slightly larger error text */
+            animation: fadeIn 1s;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+{% endblock style %}
+{% block body %}
+    <div class="window">
+        <form class="shadow bg-white rounded login" method="POST">
+            {% csrf_token %}
+            <img src="{% static 'logo.png' %}" class="logo">
+            <h1 class="text">Log In</h1>
+            {% if form.errors %}
+                <div class="errors">
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <a style="color:red">{{ field.errors }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="{% static 'user.png' %}" class="img">
+                    </span>
+                </div>
+                {# <input class="form-control" placeholder="Email" required> #}
+                {{ form.username }}
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <img src="{% static 'password.png' %}" class="img">
+                    </span>
+                </div>
+                {# <input class="form-control" placeholder="Password" type="password" required> #}
+                {{ form.password }}
+            </div>
+            <Button class="btn btn-secondary" type="submit">Sign In</Button>
+        </form>
+    </div>
+{% endblock body %}
