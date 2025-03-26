@@ -392,11 +392,7 @@ def calories_finder(request):
     })
 
 
-
-'AIzaSyCXTTUuRCIngx1X_nzkp5u5K_XRiO_QapQ'
-
-
-openai.api_key = "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"
+# openai.api_key = ""  insert your own api
 def fitness_assistant(request):
 
     if request.method == "POST":
