@@ -13,6 +13,7 @@ Food Diary: Plan your diet by logging daily meals and tracking nutritional intak
 Exercise Selection: Choose from various exercises for a personalized fitness plan.
 
 Weight Tracker: Monitor and track your weight loss progress over time.
+
 Technologies Used
 
 Django (Backend)
